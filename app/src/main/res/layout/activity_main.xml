@@ -6,13 +6,211 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="*">
+
+
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:id="@+id/Text"
+                    android:layout_weight="0.5"
+
+                    android:padding="10dp"
+                    android:text="Overall Quality"
+                    android:gravity="center_horizontal"
+                    android:textColor="#000000"
+                    />
+
+                <TextView
+                    android:id="@+id/OverallQualityText"
+                    android:layout_weight="0.5"
+                    android:gravity="center_horizontal"
+                    android:text="Good"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:id="@+id/SensorTypeText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Sensor Type"
+                    android:textColor="#000000" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Quality"
+                    android:textColor="#000000" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:id="@+id/AccelerometerText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Accelerometer" />
+
+                <TextView
+                    android:id="@+id/AccQualityText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Good" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:id="@+id/GyroscopeText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Gyroscope" />
+
+                <TextView
+                    android:id="@+id/GyroQualityText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Good" />
+            </TableRow>
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/CompassText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Compass" />
+
+                <TextView
+                    android:id="@+id/CompassQualityText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Average" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/BarometerText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Barometer" />
+
+                <TextView
+                    android:id="@+id/BarometerQualityText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Absent" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/HeartRateText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Heart Rate" />
+
+                <TextView
+                    android:id="@+id/HeartRateQualityText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Absent" />
+            </TableRow>
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/LightText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Light" />
+
+                <TextView
+                    android:id="@+id/LightQualityText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Good" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/ProximityText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Proximity"
+                    />
+
+                <TextView
+                    android:id="@+id/ProximityQualityText"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="Good" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+                <Button
+                    android:id="@+id/button"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:textAlignment="center"
+                    android:text="START" />
+            </TableRow>
+        </TableLayout>
+
+
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
