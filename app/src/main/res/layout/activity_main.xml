@@ -79,7 +79,7 @@
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Good" />
+                    android:text="" />
             </TableRow>
 
             <TableRow
@@ -98,7 +98,7 @@
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Good" />
+                    android:text="" />
             </TableRow>
             <TableRow
                 android:layout_width="0dp"
@@ -116,7 +116,7 @@
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Average" />
+                    android:text="" />
             </TableRow>
 
             <TableRow
@@ -135,7 +135,7 @@
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Absent" />
+                    android:text="" />
             </TableRow>
 
             <TableRow
@@ -154,7 +154,7 @@
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Absent" />
+                    android:text="" />
             </TableRow>
             <TableRow
                 android:layout_width="0dp"
@@ -172,7 +172,7 @@
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Good" />
+                    android:text="" />
             </TableRow>
 
             <TableRow
@@ -191,7 +191,7 @@
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Good" />
+                    android:text="" />
             </TableRow>
 
             <TableRow
