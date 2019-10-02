@@ -1,9 +1,24 @@
+/**
+ *  Prepopulated databse containing sensor score information.
+ *
+ *  This database should be in assets( If you make changes to databse please place the database to assets folder)
+ *
+ *  This databse is first copied to /data/com.example.capstoneproject/databases
+ *
+ *  Here it is converted to room database
+ *
+ *  Individual tables created for individual sensor scores
+ */
+
 package com.example.capstoneproject;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.Observer;
 
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.os.Bundle;
@@ -11,17 +26,32 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity{
     private SensorManager sensorManager;
+    private String DB_NAME = "databases/Capstone";
+    private Database database;
+    private PrepopulateDBHelper prepopulateDBHelper = null;
+
+    public MainActivity(){
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Prepopulate Database here
+        prepopulateDBHelper = PrepopulateDBHelper.getInstance(getApplicationContext());
+
         final Button button = findViewById(R.id.button);
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                // Initialize sensor manager service
                 sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 
 
@@ -29,8 +59,71 @@ public class MainActivity extends AppCompatActivity {
 
                 // If Accelerometer is present in the device
                 if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
-                    TextView tv = findViewById(R.id.AccQualityText);
-                    tv.setText("Present");
+
+                    // Preprocessing on the input accelerometer string
+                    String sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER).getName();
+                    sensor = sensor.toUpperCase();
+                    sensor = sensor.replaceAll("SENSOR","");
+                    sensor = sensor.replaceAll("ACCELERATION","");
+                    sensor = sensor.trim();
+                    final TextView tv = findViewById(R.id.AccQualityText);
+
+                    //  For cases that have not been covered by data set
+                    if(sensor.isEmpty()){
+                        tv.setText("Average");
+                    }
+                    else {
+
+                        // Create a exec thread that sets up database
+                        ExecThread execThread = new ExecThread(getApplicationContext());
+                        //AccelerometerScore accelerometerScore =  new AccelerometerScore();
+                        //accelerometerScore.setName("LSM");
+                        //accelerometerScore.setFinalScore(123);
+                        //execThread.insertAccScore(accelerometerScore);
+
+                        // Call to get the value corresponding to a particular string
+                        LiveData<List<Float>> lst = execThread.getAccScore(sensor);
+                        //LiveData<List<Float>> lst = database.daoAccess().getAccScore("LSM");
+                        execThread.getAccScore(sensor).observeForever(new Observer<List<Float>>() {
+                            @Override
+                            public void onChanged(List<Float> floats) {
+                                try {
+                                    // Provide good/ bad / average recommendation for the sensor
+
+                                    float val = floats.get(0);
+                                    //Compute Difference from the 3 clusters
+
+                                    //Compute difference from -0.1668 Med
+                                    double diff1 = Math.abs(-0.1668-val);
+
+                                    // Compute difference from 0.1869 High
+                                    double diff2 = Math.abs(0.1869 - val);
+
+                                    // Compute difference from -0.4029 Low
+                                    double diff3 = Math.abs(-0.4029 - val);
+
+                                    double minimumdiff = Math.min(Math.min(diff1, diff2), diff3);
+
+                                    if(minimumdiff == diff1){
+                                        tv.setText("Average");
+                                    }
+                                    else if(minimumdiff == diff2){
+                                        tv.setText("Good");
+                                    }
+                                    else{
+                                        tv.setText("Bad");
+                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    // For exception cases return Average
+                                    tv.setText("Average");
+                                }
+                            }
+                        });
+                    }
+
                 }
                 else{
                     TextView tv = findViewById(R.id.AccQualityText);
