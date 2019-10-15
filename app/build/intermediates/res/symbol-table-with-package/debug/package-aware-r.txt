@@ -655,10 +655,6 @@ id CompassText
 id FUNCTION
 id GyroQualityText
 id GyroscopeText
-id HeartRateQualityText
-id HeartRateText
-id LightQualityText
-id LightText
 id META
 id OverallQualityText
 id ProximityQualityText

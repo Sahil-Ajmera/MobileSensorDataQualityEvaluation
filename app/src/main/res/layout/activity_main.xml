@@ -140,40 +140,10 @@
 
             <TableRow
                 android:layout_width="0dp"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/HeartRateText"
-                    android:layout_weight="0.5"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="Heart Rate" />
-
-                <TextView
-                    android:id="@+id/HeartRateQualityText"
-                    android:layout_weight="0.5"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="" />
-            </TableRow>
+                android:layout_height="match_parent"/>
             <TableRow
                 android:layout_width="0dp"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/LightText"
-                    android:layout_weight="0.5"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="Light" />
-
-                <TextView
-                    android:id="@+id/LightQualityText"
-                    android:layout_weight="0.5"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="" />
-            </TableRow>
+                android:layout_height="match_parent"/>
 
             <TableRow
                 android:layout_width="0dp"
