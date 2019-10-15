@@ -30,6 +30,8 @@ public final class DaoAccess_Impl implements DaoAccess {
 
   private final EntityInsertionAdapter __insertionAdapterOfMagnetometerScore;
 
+  private final EntityInsertionAdapter __insertionAdapterOfProximityScore;
+
   public DaoAccess_Impl(RoomDatabase __db) {
     this.__db = __db;
     this.__insertionAdapterOfAccelerometerScore = new EntityInsertionAdapter<AccelerometerScore>(__db) {
@@ -174,6 +176,39 @@ public final class DaoAccess_Impl implements DaoAccess {
         stmt.bindDouble(17, value.finalScore);
       }
     };
+    this.__insertionAdapterOfProximityScore = new EntityInsertionAdapter<ProximityScore>(__db) {
+      @Override
+      public String createQuery() {
+        return "INSERT OR ABORT INTO `ProximityScore`(`sid`,`Name`,`generalFeatures`,`webLink`,`resolution`,`normalizedResolution`,`valueRange`,`normalizedvalueRange`,`absoluteResponse`,`normalizedabsoluteResponse`,`finalScore`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?)";
+      }
+
+      @Override
+      public void bind(SupportSQLiteStatement stmt, ProximityScore value) {
+        stmt.bindLong(1, value.sid);
+        if (value.Name == null) {
+          stmt.bindNull(2);
+        } else {
+          stmt.bindString(2, value.Name);
+        }
+        if (value.generalFeatures == null) {
+          stmt.bindNull(3);
+        } else {
+          stmt.bindString(3, value.generalFeatures);
+        }
+        if (value.webLink == null) {
+          stmt.bindNull(4);
+        } else {
+          stmt.bindString(4, value.webLink);
+        }
+        stmt.bindDouble(5, value.resolution);
+        stmt.bindDouble(6, value.normalizedResolution);
+        stmt.bindDouble(7, value.valueRange);
+        stmt.bindDouble(8, value.normalizedvalueRange);
+        stmt.bindDouble(9, value.absoluteResponse);
+        stmt.bindDouble(10, value.normalizedabsoluteResponse);
+        stmt.bindDouble(11, value.finalScore);
+      }
+    };
   }
 
   @Override
@@ -217,6 +252,18 @@ public final class DaoAccess_Impl implements DaoAccess {
     __db.beginTransaction();
     try {
       long _result = __insertionAdapterOfMagnetometerScore.insertAndReturnId(magnetometerScore);
+      __db.setTransactionSuccessful();
+      return _result;
+    } finally {
+      __db.endTransaction();
+    }
+  }
+
+  @Override
+  public Long insertProximityScore(ProximityScore proximityScore) {
+    __db.beginTransaction();
+    try {
+      long _result = __insertionAdapterOfProximityScore.insertAndReturnId(proximityScore);
       __db.setTransactionSuccessful();
       return _result;
     } finally {
@@ -388,6 +435,55 @@ public final class DaoAccess_Impl implements DaoAccess {
       protected List<Float> compute() {
         if (_observer == null) {
           _observer = new Observer("MagnetometerScore") {
+            @Override
+            public void onInvalidated(@NonNull Set<String> tables) {
+              invalidate();
+            }
+          };
+          __db.getInvalidationTracker().addWeakObserver(_observer);
+        }
+        final Cursor _cursor = __db.query(_statement);
+        try {
+          final List<Float> _result = new ArrayList<Float>(_cursor.getCount());
+          while(_cursor.moveToNext()) {
+            final Float _item;
+            if (_cursor.isNull(0)) {
+              _item = null;
+            } else {
+              _item = _cursor.getFloat(0);
+            }
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+        }
+      }
+
+      @Override
+      protected void finalize() {
+        _statement.release();
+      }
+    }.getLiveData();
+  }
+
+  @Override
+  public LiveData<List<Float>> getProximityScore(String name) {
+    final String _sql = "SELECT finalScore FROM ProximityScore WHERE Name = ?";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    if (name == null) {
+      _statement.bindNull(_argIndex);
+    } else {
+      _statement.bindString(_argIndex, name);
+    }
+    return new ComputableLiveData<List<Float>>(__db.getQueryExecutor()) {
+      private Observer _observer;
+
+      @Override
+      protected List<Float> compute() {
+        if (_observer == null) {
+          _observer = new Observer("ProximityScore") {
             @Override
             public void onInvalidated(@NonNull Set<String> tables) {
               invalidate();

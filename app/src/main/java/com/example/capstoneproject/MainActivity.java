@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity{
                     sensor = sensor.replaceAll("MAGNETIC FIELD","");
                     sensor = sensor.replaceAll("COMPASS","");
                     sensor = sensor.trim();
-                    System.out.println("***************"+sensor+"***********************");
+                    //System.out.println("***************"+sensor+"***********************");
                     final TextView tv = findViewById(R.id.CompassQualityText);
                     //System.out.println("*******************"+sensor+"*****************");
                     //  For cases that have not been covered by data set
@@ -373,8 +373,74 @@ public class MainActivity extends AppCompatActivity{
 
                 // If Proximity is present in the device
                 if (sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) != null){
-                    TextView tv = findViewById(R.id.ProximityQualityText);
-                    tv.setText("Present");
+                    // Preprocessing on the input accelerometer string
+                    String sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY).getName();
+                    sensor = sensor.toUpperCase();
+                    sensor = sensor.replaceAll("SENSOR","");
+                    sensor = sensor.replaceAll("PROXIMITY","");
+                    sensor = sensor.trim();
+                    System.out.println("***************"+sensor+"***********************");
+                    final TextView tv = findViewById(R.id.ProximityQualityText);
+                    //System.out.println("*******************"+sensor+"*****************");
+                    //  For cases that have not been covered by data set
+                    if(sensor.isEmpty()){
+                        tv.setText("Average");
+                    }
+                    else {
+
+                        // Create a exec thread that sets up database
+                        ExecThread execThread = new ExecThread(getApplicationContext());
+                        //AccelerometerScore accelerometerScore =  new AccelerometerScore();
+                        //accelerometerScore.setName("LSM");
+                        //accelerometerScore.setFinalScore(123);
+                        //execThread.insertAccScore(accelerometerScore);
+
+                        // Call to get the value corresponding to a particular string
+                        LiveData<List<Float>> lst = execThread.getProximityScore(sensor);
+
+                        //System.out.println("***************"+sensor+"*********************");
+                        //LiveData<List<Float>> lst = database.daoAccess().getAccScore("LSM");
+                        execThread.getProximityScore(sensor).observeForever(new Observer<List<Float>>() {
+                            @Override
+                            public void onChanged(List<Float> floats) {
+                                try {
+                                    // Provide good/ bad / average recommendation for the sensor
+
+                                    float val = floats.get(0);
+                                    //Compute Difference from the 3 clusters
+
+                                    //Compute difference from 0.62460502 Med
+                                    double diff1 = Math.abs(0.62460502-val);
+
+                                    // Compute difference from 0.43485789 Low
+                                    double diff2 = Math.abs(0.43485789 - val);
+
+                                    // Compute difference from 0.85836386 High
+                                    double diff3 = Math.abs(0.85836386 - val);
+
+                                    double minimumdiff = Math.min(Math.min(diff1, diff2), diff3);
+
+                                    if(minimumdiff == diff1){
+                                        tv.setText("Average");
+                                    }
+                                    else if(minimumdiff == diff2){
+                                        tv.setText("Bad");
+                                    }
+                                    else{
+                                        tv.setText("Good");
+                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    //System.out.println("***************"+ex+"*********************");
+                                    // For exception cases return Average
+                                    tv.setText("Average");
+                                }
+                            }
+                        });
+                    }
+
                 }
                 else{
                     TextView tv = findViewById(R.id.ProximityQualityText);

@@ -47,4 +47,8 @@ public class ExecThread {
     public LiveData<List<Float>> getMagnetometerScore(String name){
         return database.daoAccess().getMagnetometerScore(name);
     }
+
+    public LiveData<List<Float>> getProximityScore(String name){
+        return database.daoAccess().getProximityScore(name);
+    }
 }

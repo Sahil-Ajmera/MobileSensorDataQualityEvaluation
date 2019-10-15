@@ -37,4 +37,10 @@ public interface DaoAccess {
 
     @Query("SELECT finalScore FROM MagnetometerScore WHERE Name = :name")
     LiveData<List<Float>> getMagnetometerScore(String name);
+
+    @Insert
+    Long insertProximityScore(ProximityScore proximityScore);
+
+    @Query("SELECT finalScore FROM ProximityScore WHERE Name = :name")
+    LiveData<List<Float>> getProximityScore(String name);
 }

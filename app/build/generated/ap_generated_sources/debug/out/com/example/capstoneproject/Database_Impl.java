@@ -25,15 +25,16 @@ public final class Database_Impl extends Database {
 
   @Override
   protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration configuration) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(9) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(10) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
         _db.execSQL("CREATE TABLE IF NOT EXISTS `AccelerometerScore` (`sid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `generalFeatures` TEXT, `webLink` TEXT, `valueSensitivity` REAL NOT NULL, `normalizedvalueSensitivity` REAL NOT NULL, `valueNonLinearity` REAL NOT NULL, `normalizedvalueNonLinearity` REAL NOT NULL, `noiseDensity` REAL NOT NULL, `normalizednoiseDensity` REAL NOT NULL, `finalScore` REAL NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS `GyroscopeScore` (`sid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `GyroFeatures` TEXT, `GyroWebLink` TEXT, `valueSensitivity` REAL NOT NULL, `normalizedvalueSensitivity` REAL NOT NULL, `valueNoiseDensity` REAL NOT NULL, `normalizedvalueNoiseDensity` REAL NOT NULL, `valueCrossAxisSensitivity` REAL NOT NULL, `normalizedvalueCrossAxisSensitivity` REAL NOT NULL, `valueNonLinearity` REAL NOT NULL, `normalizedvalueNonLinearity` REAL NOT NULL, `finalScore` REAL NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS `BarometerScore` (`sid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `generalFeatures` TEXT, `webLink` TEXT, `lowestMeasurementRange` REAL NOT NULL, `normalizedlowestMeasurementRange` REAL NOT NULL, `highestMeasurementRange` REAL NOT NULL, `normalizedhighestMeasurementRange` REAL NOT NULL, `absoluteAccuracy` REAL NOT NULL, `normalizedabsoluteAccuracy` REAL NOT NULL, `noise` REAL NOT NULL, `normalizednoise` REAL NOT NULL, `finalScore` REAL NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS `MagnetometerScore` (`sid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `generalFeatures` TEXT, `webLink` TEXT, `valueNonLinearity` REAL NOT NULL, `normalizedvalueNonLinearity` REAL NOT NULL, `valueSensitivity` REAL NOT NULL, `normalizedvalueSensitivity` REAL NOT NULL, `noise` REAL NOT NULL, `normalizednoise` REAL NOT NULL, `headingAccuracy` REAL NOT NULL, `normalizedheadingAccuracy` REAL NOT NULL, `magneticFieldRange` REAL NOT NULL, `normalizedmagneticFieldRange` REAL NOT NULL, `resolution` REAL NOT NULL, `normalizedResolution` REAL NOT NULL, `finalScore` REAL NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `ProximityScore` (`sid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `generalFeatures` TEXT, `webLink` TEXT, `resolution` REAL NOT NULL, `normalizedResolution` REAL NOT NULL, `valueRange` REAL NOT NULL, `normalizedvalueRange` REAL NOT NULL, `absoluteResponse` REAL NOT NULL, `normalizedabsoluteResponse` REAL NOT NULL, `finalScore` REAL NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5040a57a0e09e83a244ce27d919084e5\")");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"fc0168b8d7ef8b64a07621d7af7d4ceb\")");
       }
 
       @Override
@@ -42,6 +43,7 @@ public final class Database_Impl extends Database {
         _db.execSQL("DROP TABLE IF EXISTS `GyroscopeScore`");
         _db.execSQL("DROP TABLE IF EXISTS `BarometerScore`");
         _db.execSQL("DROP TABLE IF EXISTS `MagnetometerScore`");
+        _db.execSQL("DROP TABLE IF EXISTS `ProximityScore`");
       }
 
       @Override
@@ -160,8 +162,29 @@ public final class Database_Impl extends Database {
                   + " Expected:\n" + _infoMagnetometerScore + "\n"
                   + " Found:\n" + _existingMagnetometerScore);
         }
+        final HashMap<String, TableInfo.Column> _columnsProximityScore = new HashMap<String, TableInfo.Column>(11);
+        _columnsProximityScore.put("sid", new TableInfo.Column("sid", "INTEGER", true, 1));
+        _columnsProximityScore.put("Name", new TableInfo.Column("Name", "TEXT", false, 0));
+        _columnsProximityScore.put("generalFeatures", new TableInfo.Column("generalFeatures", "TEXT", false, 0));
+        _columnsProximityScore.put("webLink", new TableInfo.Column("webLink", "TEXT", false, 0));
+        _columnsProximityScore.put("resolution", new TableInfo.Column("resolution", "REAL", true, 0));
+        _columnsProximityScore.put("normalizedResolution", new TableInfo.Column("normalizedResolution", "REAL", true, 0));
+        _columnsProximityScore.put("valueRange", new TableInfo.Column("valueRange", "REAL", true, 0));
+        _columnsProximityScore.put("normalizedvalueRange", new TableInfo.Column("normalizedvalueRange", "REAL", true, 0));
+        _columnsProximityScore.put("absoluteResponse", new TableInfo.Column("absoluteResponse", "REAL", true, 0));
+        _columnsProximityScore.put("normalizedabsoluteResponse", new TableInfo.Column("normalizedabsoluteResponse", "REAL", true, 0));
+        _columnsProximityScore.put("finalScore", new TableInfo.Column("finalScore", "REAL", true, 0));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysProximityScore = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesProximityScore = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoProximityScore = new TableInfo("ProximityScore", _columnsProximityScore, _foreignKeysProximityScore, _indicesProximityScore);
+        final TableInfo _existingProximityScore = TableInfo.read(_db, "ProximityScore");
+        if (! _infoProximityScore.equals(_existingProximityScore)) {
+          throw new IllegalStateException("Migration didn't properly handle ProximityScore(com.example.capstoneproject.ProximityScore).\n"
+                  + " Expected:\n" + _infoProximityScore + "\n"
+                  + " Found:\n" + _existingProximityScore);
+        }
       }
-    }, "5040a57a0e09e83a244ce27d919084e5", "4a897299ba5dd574523c98a4c084ac39");
+    }, "fc0168b8d7ef8b64a07621d7af7d4ceb", "d4c82078469a4ae24caac6785535f4f3");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)
@@ -172,7 +195,7 @@ public final class Database_Impl extends Database {
 
   @Override
   protected InvalidationTracker createInvalidationTracker() {
-    return new InvalidationTracker(this, "AccelerometerScore","GyroscopeScore","BarometerScore","MagnetometerScore");
+    return new InvalidationTracker(this, "AccelerometerScore","GyroscopeScore","BarometerScore","MagnetometerScore","ProximityScore");
   }
 
   @Override
@@ -185,6 +208,7 @@ public final class Database_Impl extends Database {
       _db.execSQL("DELETE FROM `GyroscopeScore`");
       _db.execSQL("DELETE FROM `BarometerScore`");
       _db.execSQL("DELETE FROM `MagnetometerScore`");
+      _db.execSQL("DELETE FROM `ProximityScore`");
       super.setTransactionSuccessful();
     } finally {
       super.endTransaction();
