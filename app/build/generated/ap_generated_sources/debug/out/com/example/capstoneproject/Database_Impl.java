@@ -25,19 +25,21 @@ public final class Database_Impl extends Database {
 
   @Override
   protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration configuration) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(7) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(8) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
         _db.execSQL("CREATE TABLE IF NOT EXISTS `AccelerometerScore` (`sid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `generalFeatures` TEXT, `webLink` TEXT, `valueSensitivity` REAL NOT NULL, `normalizedvalueSensitivity` REAL NOT NULL, `valueNonLinearity` REAL NOT NULL, `normalizedvalueNonLinearity` REAL NOT NULL, `noiseDensity` REAL NOT NULL, `normalizednoiseDensity` REAL NOT NULL, `finalScore` REAL NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS `GyroscopeScore` (`sid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `GyroFeatures` TEXT, `GyroWebLink` TEXT, `valueSensitivity` REAL NOT NULL, `normalizedvalueSensitivity` REAL NOT NULL, `valueNoiseDensity` REAL NOT NULL, `normalizedvalueNoiseDensity` REAL NOT NULL, `valueCrossAxisSensitivity` REAL NOT NULL, `normalizedvalueCrossAxisSensitivity` REAL NOT NULL, `valueNonLinearity` REAL NOT NULL, `normalizedvalueNonLinearity` REAL NOT NULL, `finalScore` REAL NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `BarometerScore` (`sid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `generalFeatures` TEXT, `webLink` TEXT, `lowestMeasurementRange` REAL NOT NULL, `normalizedlowestMeasurementRange` REAL NOT NULL, `highestMeasurementRange` REAL NOT NULL, `normalizedhighestMeasurementRange` REAL NOT NULL, `absoluteAccuracy` REAL NOT NULL, `normalizedabsoluteAccuracy` REAL NOT NULL, `noise` REAL NOT NULL, `normalizednoise` REAL NOT NULL, `finalScore` REAL NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"f82614de6549f0d2a0f74ab16ef438f9\")");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"64e19399c7506388fabb544b46e48aa2\")");
       }
 
       @Override
       public void dropAllTables(SupportSQLiteDatabase _db) {
         _db.execSQL("DROP TABLE IF EXISTS `AccelerometerScore`");
         _db.execSQL("DROP TABLE IF EXISTS `GyroscopeScore`");
+        _db.execSQL("DROP TABLE IF EXISTS `BarometerScore`");
       }
 
       @Override
@@ -106,8 +108,31 @@ public final class Database_Impl extends Database {
                   + " Expected:\n" + _infoGyroscopeScore + "\n"
                   + " Found:\n" + _existingGyroscopeScore);
         }
+        final HashMap<String, TableInfo.Column> _columnsBarometerScore = new HashMap<String, TableInfo.Column>(13);
+        _columnsBarometerScore.put("sid", new TableInfo.Column("sid", "INTEGER", true, 1));
+        _columnsBarometerScore.put("Name", new TableInfo.Column("Name", "TEXT", false, 0));
+        _columnsBarometerScore.put("generalFeatures", new TableInfo.Column("generalFeatures", "TEXT", false, 0));
+        _columnsBarometerScore.put("webLink", new TableInfo.Column("webLink", "TEXT", false, 0));
+        _columnsBarometerScore.put("lowestMeasurementRange", new TableInfo.Column("lowestMeasurementRange", "REAL", true, 0));
+        _columnsBarometerScore.put("normalizedlowestMeasurementRange", new TableInfo.Column("normalizedlowestMeasurementRange", "REAL", true, 0));
+        _columnsBarometerScore.put("highestMeasurementRange", new TableInfo.Column("highestMeasurementRange", "REAL", true, 0));
+        _columnsBarometerScore.put("normalizedhighestMeasurementRange", new TableInfo.Column("normalizedhighestMeasurementRange", "REAL", true, 0));
+        _columnsBarometerScore.put("absoluteAccuracy", new TableInfo.Column("absoluteAccuracy", "REAL", true, 0));
+        _columnsBarometerScore.put("normalizedabsoluteAccuracy", new TableInfo.Column("normalizedabsoluteAccuracy", "REAL", true, 0));
+        _columnsBarometerScore.put("noise", new TableInfo.Column("noise", "REAL", true, 0));
+        _columnsBarometerScore.put("normalizednoise", new TableInfo.Column("normalizednoise", "REAL", true, 0));
+        _columnsBarometerScore.put("finalScore", new TableInfo.Column("finalScore", "REAL", true, 0));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysBarometerScore = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesBarometerScore = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoBarometerScore = new TableInfo("BarometerScore", _columnsBarometerScore, _foreignKeysBarometerScore, _indicesBarometerScore);
+        final TableInfo _existingBarometerScore = TableInfo.read(_db, "BarometerScore");
+        if (! _infoBarometerScore.equals(_existingBarometerScore)) {
+          throw new IllegalStateException("Migration didn't properly handle BarometerScore(com.example.capstoneproject.BarometerScore).\n"
+                  + " Expected:\n" + _infoBarometerScore + "\n"
+                  + " Found:\n" + _existingBarometerScore);
+        }
       }
-    }, "f82614de6549f0d2a0f74ab16ef438f9", "023674c39aa8c986d27a31662369e5a5");
+    }, "64e19399c7506388fabb544b46e48aa2", "31f428606865863662d240485b6f0859");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)
@@ -118,7 +143,7 @@ public final class Database_Impl extends Database {
 
   @Override
   protected InvalidationTracker createInvalidationTracker() {
-    return new InvalidationTracker(this, "AccelerometerScore","GyroscopeScore");
+    return new InvalidationTracker(this, "AccelerometerScore","GyroscopeScore","BarometerScore");
   }
 
   @Override
@@ -129,6 +154,7 @@ public final class Database_Impl extends Database {
       super.beginTransaction();
       _db.execSQL("DELETE FROM `AccelerometerScore`");
       _db.execSQL("DELETE FROM `GyroscopeScore`");
+      _db.execSQL("DELETE FROM `BarometerScore`");
       super.setTransactionSuccessful();
     } finally {
       super.endTransaction();

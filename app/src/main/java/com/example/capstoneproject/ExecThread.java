@@ -39,4 +39,8 @@ public class ExecThread {
     public LiveData<List<Float>> getGyroScore(String name){
         return database.daoAccess().getGyroScore(name);
     }
+
+    public LiveData<List<Float>> getBarometerScore(String name){
+        return database.daoAccess().getBarometerScore(name);
+    }
 }

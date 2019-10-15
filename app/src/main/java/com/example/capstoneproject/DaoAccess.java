@@ -25,4 +25,10 @@ public interface DaoAccess {
 
     @Query("SELECT finalScore FROM GyroscopeScore WHERE Name = :name")
     LiveData<List<Float>> getGyroScore(String name);
+
+    @Insert
+    Long insertBarometerScore(BarometerScore barometerScore);
+
+    @Query("SELECT finalScore FROM BarometerScore WHERE Name = :name")
+    LiveData<List<Float>> getBarometerScore(String name);
 }
