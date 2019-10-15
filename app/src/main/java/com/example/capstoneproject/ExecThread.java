@@ -35,4 +35,8 @@ public class ExecThread {
         }.execute();
 
     }
+
+    public LiveData<List<Float>> getGyroScore(String name){
+        return database.daoAccess().getGyroScore(name);
+    }
 }

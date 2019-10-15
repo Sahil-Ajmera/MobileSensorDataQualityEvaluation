@@ -19,4 +19,10 @@ public interface DaoAccess {
     @Query("SELECT finalScore FROM AccelerometerScore WHERE Name = :name")
     LiveData<List<Float>> getAccScore(String name);
 
+
+    @Insert
+    Long insertGyroScore(GyroscopeScore gyroscopeScore);
+
+    @Query("SELECT finalScore FROM GyroscopeScore WHERE Name = :name")
+    LiveData<List<Float>> getGyroScore(String name);
 }
