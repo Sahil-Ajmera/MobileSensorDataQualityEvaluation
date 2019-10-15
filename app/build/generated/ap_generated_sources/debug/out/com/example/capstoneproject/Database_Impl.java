@@ -25,14 +25,15 @@ public final class Database_Impl extends Database {
 
   @Override
   protected SupportSQLiteOpenHelper createOpenHelper(DatabaseConfiguration configuration) {
-    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(8) {
+    final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(9) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
         _db.execSQL("CREATE TABLE IF NOT EXISTS `AccelerometerScore` (`sid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `generalFeatures` TEXT, `webLink` TEXT, `valueSensitivity` REAL NOT NULL, `normalizedvalueSensitivity` REAL NOT NULL, `valueNonLinearity` REAL NOT NULL, `normalizedvalueNonLinearity` REAL NOT NULL, `noiseDensity` REAL NOT NULL, `normalizednoiseDensity` REAL NOT NULL, `finalScore` REAL NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS `GyroscopeScore` (`sid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `GyroFeatures` TEXT, `GyroWebLink` TEXT, `valueSensitivity` REAL NOT NULL, `normalizedvalueSensitivity` REAL NOT NULL, `valueNoiseDensity` REAL NOT NULL, `normalizedvalueNoiseDensity` REAL NOT NULL, `valueCrossAxisSensitivity` REAL NOT NULL, `normalizedvalueCrossAxisSensitivity` REAL NOT NULL, `valueNonLinearity` REAL NOT NULL, `normalizedvalueNonLinearity` REAL NOT NULL, `finalScore` REAL NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS `BarometerScore` (`sid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `generalFeatures` TEXT, `webLink` TEXT, `lowestMeasurementRange` REAL NOT NULL, `normalizedlowestMeasurementRange` REAL NOT NULL, `highestMeasurementRange` REAL NOT NULL, `normalizedhighestMeasurementRange` REAL NOT NULL, `absoluteAccuracy` REAL NOT NULL, `normalizedabsoluteAccuracy` REAL NOT NULL, `noise` REAL NOT NULL, `normalizednoise` REAL NOT NULL, `finalScore` REAL NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `MagnetometerScore` (`sid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `generalFeatures` TEXT, `webLink` TEXT, `valueNonLinearity` REAL NOT NULL, `normalizedvalueNonLinearity` REAL NOT NULL, `valueSensitivity` REAL NOT NULL, `normalizedvalueSensitivity` REAL NOT NULL, `noise` REAL NOT NULL, `normalizednoise` REAL NOT NULL, `headingAccuracy` REAL NOT NULL, `normalizedheadingAccuracy` REAL NOT NULL, `magneticFieldRange` REAL NOT NULL, `normalizedmagneticFieldRange` REAL NOT NULL, `resolution` REAL NOT NULL, `normalizedResolution` REAL NOT NULL, `finalScore` REAL NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"64e19399c7506388fabb544b46e48aa2\")");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5040a57a0e09e83a244ce27d919084e5\")");
       }
 
       @Override
@@ -40,6 +41,7 @@ public final class Database_Impl extends Database {
         _db.execSQL("DROP TABLE IF EXISTS `AccelerometerScore`");
         _db.execSQL("DROP TABLE IF EXISTS `GyroscopeScore`");
         _db.execSQL("DROP TABLE IF EXISTS `BarometerScore`");
+        _db.execSQL("DROP TABLE IF EXISTS `MagnetometerScore`");
       }
 
       @Override
@@ -131,8 +133,35 @@ public final class Database_Impl extends Database {
                   + " Expected:\n" + _infoBarometerScore + "\n"
                   + " Found:\n" + _existingBarometerScore);
         }
+        final HashMap<String, TableInfo.Column> _columnsMagnetometerScore = new HashMap<String, TableInfo.Column>(17);
+        _columnsMagnetometerScore.put("sid", new TableInfo.Column("sid", "INTEGER", true, 1));
+        _columnsMagnetometerScore.put("Name", new TableInfo.Column("Name", "TEXT", false, 0));
+        _columnsMagnetometerScore.put("generalFeatures", new TableInfo.Column("generalFeatures", "TEXT", false, 0));
+        _columnsMagnetometerScore.put("webLink", new TableInfo.Column("webLink", "TEXT", false, 0));
+        _columnsMagnetometerScore.put("valueNonLinearity", new TableInfo.Column("valueNonLinearity", "REAL", true, 0));
+        _columnsMagnetometerScore.put("normalizedvalueNonLinearity", new TableInfo.Column("normalizedvalueNonLinearity", "REAL", true, 0));
+        _columnsMagnetometerScore.put("valueSensitivity", new TableInfo.Column("valueSensitivity", "REAL", true, 0));
+        _columnsMagnetometerScore.put("normalizedvalueSensitivity", new TableInfo.Column("normalizedvalueSensitivity", "REAL", true, 0));
+        _columnsMagnetometerScore.put("noise", new TableInfo.Column("noise", "REAL", true, 0));
+        _columnsMagnetometerScore.put("normalizednoise", new TableInfo.Column("normalizednoise", "REAL", true, 0));
+        _columnsMagnetometerScore.put("headingAccuracy", new TableInfo.Column("headingAccuracy", "REAL", true, 0));
+        _columnsMagnetometerScore.put("normalizedheadingAccuracy", new TableInfo.Column("normalizedheadingAccuracy", "REAL", true, 0));
+        _columnsMagnetometerScore.put("magneticFieldRange", new TableInfo.Column("magneticFieldRange", "REAL", true, 0));
+        _columnsMagnetometerScore.put("normalizedmagneticFieldRange", new TableInfo.Column("normalizedmagneticFieldRange", "REAL", true, 0));
+        _columnsMagnetometerScore.put("resolution", new TableInfo.Column("resolution", "REAL", true, 0));
+        _columnsMagnetometerScore.put("normalizedResolution", new TableInfo.Column("normalizedResolution", "REAL", true, 0));
+        _columnsMagnetometerScore.put("finalScore", new TableInfo.Column("finalScore", "REAL", true, 0));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysMagnetometerScore = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesMagnetometerScore = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoMagnetometerScore = new TableInfo("MagnetometerScore", _columnsMagnetometerScore, _foreignKeysMagnetometerScore, _indicesMagnetometerScore);
+        final TableInfo _existingMagnetometerScore = TableInfo.read(_db, "MagnetometerScore");
+        if (! _infoMagnetometerScore.equals(_existingMagnetometerScore)) {
+          throw new IllegalStateException("Migration didn't properly handle MagnetometerScore(com.example.capstoneproject.MagnetometerScore).\n"
+                  + " Expected:\n" + _infoMagnetometerScore + "\n"
+                  + " Found:\n" + _existingMagnetometerScore);
+        }
       }
-    }, "64e19399c7506388fabb544b46e48aa2", "31f428606865863662d240485b6f0859");
+    }, "5040a57a0e09e83a244ce27d919084e5", "4a897299ba5dd574523c98a4c084ac39");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)
@@ -143,7 +172,7 @@ public final class Database_Impl extends Database {
 
   @Override
   protected InvalidationTracker createInvalidationTracker() {
-    return new InvalidationTracker(this, "AccelerometerScore","GyroscopeScore","BarometerScore");
+    return new InvalidationTracker(this, "AccelerometerScore","GyroscopeScore","BarometerScore","MagnetometerScore");
   }
 
   @Override
@@ -155,6 +184,7 @@ public final class Database_Impl extends Database {
       _db.execSQL("DELETE FROM `AccelerometerScore`");
       _db.execSQL("DELETE FROM `GyroscopeScore`");
       _db.execSQL("DELETE FROM `BarometerScore`");
+      _db.execSQL("DELETE FROM `MagnetometerScore`");
       super.setTransactionSuccessful();
     } finally {
       super.endTransaction();

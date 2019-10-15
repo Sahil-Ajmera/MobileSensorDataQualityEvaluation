@@ -180,10 +180,10 @@ public class MainActivity extends AppCompatActivity{
                                     //Compute difference from -0.01459545 Med
                                     double diff1 = Math.abs(-0.01459545-val);
 
-                                    // Compute difference from -0.41666667 Med
+                                    // Compute difference from -0.41666667 Low
                                     double diff2 = Math.abs(-0.41666667 - val);
 
-                                    // Compute difference from -0.4029 High
+                                    // Compute difference from 0.41569767 High
                                     double diff3 = Math.abs(0.41569767 - val);
 
                                     double minimumdiff = Math.min(Math.min(diff1, diff2), diff3);
@@ -217,8 +217,76 @@ public class MainActivity extends AppCompatActivity{
 
                 // If Compass/Magnetometer is present in the device
                 if (sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null){
-                    TextView tv = findViewById(R.id.CompassQualityText);
-                    tv.setText("Present");
+                    // Preprocessing on the input accelerometer string
+                    String sensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD).getName();
+                    sensor = sensor.toUpperCase();
+                    sensor = sensor.replaceAll("SENSOR","");
+                    sensor = sensor.replaceAll("MAGNETOMETER","");
+                    sensor = sensor.replaceAll("MAGNETIC FIELD","");
+                    sensor = sensor.replaceAll("COMPASS","");
+                    sensor = sensor.trim();
+                    System.out.println("***************"+sensor+"***********************");
+                    final TextView tv = findViewById(R.id.CompassQualityText);
+                    //System.out.println("*******************"+sensor+"*****************");
+                    //  For cases that have not been covered by data set
+                    if(sensor.isEmpty()){
+                        tv.setText("Average");
+                    }
+                    else {
+
+                        // Create a exec thread that sets up database
+                        ExecThread execThread = new ExecThread(getApplicationContext());
+                        //AccelerometerScore accelerometerScore =  new AccelerometerScore();
+                        //accelerometerScore.setName("LSM");
+                        //accelerometerScore.setFinalScore(123);
+                        //execThread.insertAccScore(accelerometerScore);
+
+                        // Call to get the value corresponding to a particular string
+                        LiveData<List<Float>> lst = execThread.getMagnetometerScore(sensor);
+
+                        //System.out.println("***************"+sensor+"*********************");
+                        //LiveData<List<Float>> lst = database.daoAccess().getAccScore("LSM");
+                        execThread.getMagnetometerScore(sensor).observeForever(new Observer<List<Float>>() {
+                            @Override
+                            public void onChanged(List<Float> floats) {
+                                try {
+                                    // Provide good/ bad / average recommendation for the sensor
+
+                                    float val = floats.get(0);
+                                    //Compute Difference from the 3 clusters
+
+                                    //Compute difference from 0.19382358 Med
+                                    double diff1 = Math.abs(0.19382358-val);
+
+                                    // Compute difference from 0.09190274 Low
+                                    double diff2 = Math.abs(0.09190274 - val);
+
+                                    // Compute difference from 0.26235772 High
+                                    double diff3 = Math.abs(0.26235772 - val);
+
+                                    double minimumdiff = Math.min(Math.min(diff1, diff2), diff3);
+
+                                    if(minimumdiff == diff1){
+                                        tv.setText("Average");
+                                    }
+                                    else if(minimumdiff == diff2){
+                                        tv.setText("Bad");
+                                    }
+                                    else{
+                                        tv.setText("Good");
+                                    }
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    //System.out.println("***************"+ex+"*********************");
+                                    // For exception cases return Average
+                                    tv.setText("Average");
+                                }
+                            }
+                        });
+                    }
+
                 }
                 else{
                     TextView tv = findViewById(R.id.CompassQualityText);

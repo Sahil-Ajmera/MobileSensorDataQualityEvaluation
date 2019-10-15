@@ -4,7 +4,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@androidx.room.Database(entities = {AccelerometerScore.class,GyroscopeScore.class,BarometerScore.class},version = 8, exportSchema = false)
+@androidx.room.Database(entities = {AccelerometerScore.class,GyroscopeScore.class,BarometerScore.class,MagnetometerScore.class},version = 9, exportSchema = false)
 abstract class Database extends RoomDatabase{
 
     public abstract DaoAccess daoAccess();

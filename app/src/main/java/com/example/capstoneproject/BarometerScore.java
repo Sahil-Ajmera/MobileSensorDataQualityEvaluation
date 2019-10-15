@@ -1,5 +1,5 @@
 /**
- *  AccelerometerScore table description in Room database format
+ *  Barometer table description in Room database format
  *
  *  All the fields have been defined as per table in .db file provided to app or room database
  */
