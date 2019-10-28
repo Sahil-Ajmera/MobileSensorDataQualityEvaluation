@@ -29,6 +29,9 @@ import android.widget.TextView;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
+    private int good = 0;
+    private int bad = 0;
+    private int average = 0;
     private SensorManager sensorManager;
     private String DB_NAME = "databases/Capstone";
     private Database database;
@@ -51,6 +54,10 @@ public class MainActivity extends AppCompatActivity{
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                good = 0;
+                bad =  0;
+                average = 0;
+
                 // Initialize sensor manager service
                 sensorManager = (SensorManager)getSystemService(Context.SENSOR_SERVICE);
 
@@ -70,6 +77,7 @@ public class MainActivity extends AppCompatActivity{
 
                     //  For cases that have not been covered by data set
                     if(sensor.isEmpty()){
+                        average++;
                         tv.setText("Average");
                     }
                     else {
@@ -105,18 +113,22 @@ public class MainActivity extends AppCompatActivity{
                                     double minimumdiff = Math.min(Math.min(diff1, diff2), diff3);
 
                                     if(minimumdiff == diff1){
+                                        average++;
                                         tv.setText("Average");
                                     }
                                     else if(minimumdiff == diff2){
+                                        good++;
                                         tv.setText("Good");
                                     }
                                     else{
+                                        bad++;
                                         tv.setText("Bad");
                                     }
 
                                 }
                                 catch (Exception ex)
                                 {
+                                    average++;
                                     // For exception cases return Average
                                     tv.setText("Average");
                                 }
@@ -130,15 +142,6 @@ public class MainActivity extends AppCompatActivity{
                     tv.setText("Absent");
                 }
 
-                // If Barometer is present in the device
-                if (sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE) != null){
-                    TextView tv = findViewById(R.id.BarometerQualityText);
-                    tv.setText("Present");
-                }
-                else{
-                    TextView tv = findViewById(R.id.BarometerQualityText);
-                    tv.setText("Absent");
-                }
 
                 // If Barometer is present in the device
                 if (sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE) != null){
@@ -152,6 +155,7 @@ public class MainActivity extends AppCompatActivity{
                     //System.out.println("*******************"+sensor+"*****************");
                     //  For cases that have not been covered by data set
                     if(sensor.isEmpty()){
+                        average++;
                         tv.setText("Average");
                     }
                     else {
@@ -189,18 +193,22 @@ public class MainActivity extends AppCompatActivity{
                                     double minimumdiff = Math.min(Math.min(diff1, diff2), diff3);
 
                                     if(minimumdiff == diff1){
+                                        average++;
                                         tv.setText("Average");
                                     }
                                     else if(minimumdiff == diff2){
+                                        bad++;
                                         tv.setText("Bad");
                                     }
                                     else{
+                                        good++;
                                         tv.setText("Good");
                                     }
 
                                 }
                                 catch (Exception ex)
                                 {
+                                    average++;
                                     //System.out.println("***************"+ex+"*********************");
                                     // For exception cases return Average
                                     tv.setText("Average");
@@ -230,6 +238,7 @@ public class MainActivity extends AppCompatActivity{
                     //System.out.println("*******************"+sensor+"*****************");
                     //  For cases that have not been covered by data set
                     if(sensor.isEmpty()){
+                        average++;
                         tv.setText("Average");
                     }
                     else {
@@ -267,18 +276,22 @@ public class MainActivity extends AppCompatActivity{
                                     double minimumdiff = Math.min(Math.min(diff1, diff2), diff3);
 
                                     if(minimumdiff == diff1){
+                                        average++;
                                         tv.setText("Average");
                                     }
                                     else if(minimumdiff == diff2){
+                                        bad++;
                                         tv.setText("Bad");
                                     }
                                     else{
+                                        good++;
                                         tv.setText("Good");
                                     }
 
                                 }
                                 catch (Exception ex)
                                 {
+                                    average++;
                                     //System.out.println("***************"+ex+"*********************");
                                     // For exception cases return Average
                                     tv.setText("Average");
@@ -306,6 +319,7 @@ public class MainActivity extends AppCompatActivity{
 
                     //  For cases that have not been covered by data set
                     if(sensor.isEmpty()){
+                        average++;
                         tv.setText("Average");
                     }
                     else {
@@ -343,18 +357,22 @@ public class MainActivity extends AppCompatActivity{
                                     double minimumdiff = Math.min(Math.min(diff1, diff2), diff3);
 
                                     if(minimumdiff == diff1){
+                                        average++;
                                         tv.setText("Average");
                                     }
                                     else if(minimumdiff == diff2){
+                                        bad++;
                                         tv.setText("Bad");
                                     }
                                     else{
+                                        good++;
                                         tv.setText("Good");
                                     }
 
                                 }
                                 catch (Exception ex)
                                 {
+                                    average++;
                                     //System.out.println("***************"+ex+"*********************");
                                     // For exception cases return Average
                                     tv.setText("Average");
@@ -384,6 +402,7 @@ public class MainActivity extends AppCompatActivity{
                     //System.out.println("*******************"+sensor+"*****************");
                     //  For cases that have not been covered by data set
                     if(sensor.isEmpty()){
+                        average++;
                         tv.setText("Average");
                     }
                     else {
@@ -421,18 +440,22 @@ public class MainActivity extends AppCompatActivity{
                                     double minimumdiff = Math.min(Math.min(diff1, diff2), diff3);
 
                                     if(minimumdiff == diff1){
+                                        average++;
                                         tv.setText("Average");
                                     }
                                     else if(minimumdiff == diff2){
+                                        bad++;
                                         tv.setText("Bad");
                                     }
                                     else{
+                                        good++;
                                         tv.setText("Good");
                                     }
 
                                 }
                                 catch (Exception ex)
                                 {
+                                    average++;
                                     //System.out.println("***************"+ex+"*********************");
                                     // For exception cases return Average
                                     tv.setText("Average");
@@ -448,15 +471,29 @@ public class MainActivity extends AppCompatActivity{
                 }
 
 
+                // Calculation for overall quality based on total of 5 sensors.
+                TextView tv = findViewById(R.id.OverallQualityText);
 
-
-
-
-
-
-
-
-
+                if(good == 2 && bad == 2){
+                    tv.setText("Average");
+                }
+                else if(good == 2 && average == 2){
+                    tv.setText("Average");
+                }
+                else if(bad == 2 && average == 2){
+                    tv.setText("Average");
+                }
+                else{
+                    if(good >= 2){
+                        tv.setText("Good");
+                    }
+                    else if(bad >= 2){
+                        tv.setText("Bad");
+                    }
+                    else{
+                        tv.setText("Average");
+                    }
+                }
 
 
 

@@ -1,4 +1,4 @@
-#Tue Oct 15 11:46:26 EDT 2019
+#Sun Oct 27 21:05:48 EDT 2019
 base.0=D\:\\Capstone\\ForApplication\\Application\\MobileSensorDataQualityEvaluation\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex
