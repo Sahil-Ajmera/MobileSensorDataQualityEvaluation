@@ -49,10 +49,10 @@ public class MainActivity extends AppCompatActivity{
         // Prepopulate Database here
         prepopulateDBHelper = PrepopulateDBHelper.getInstance(getApplicationContext());
 
-        final Button button = findViewById(R.id.button);
+        //final Button button = findViewById(R.id.button);
 
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
+        //button.setOnClickListener(new View.OnClickListener() {
+        //    public void onClick(View v) {
 
                 good = 0;
                 bad =  0;
@@ -69,10 +69,18 @@ public class MainActivity extends AppCompatActivity{
 
                     // Preprocessing on the input accelerometer string
                     String sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER).getName();
+                    float sensorres = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER).getResolution();
+                    float sensormaxrange = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER).getMaximumRange();
+                    String sensorvendor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER).getVendor();
+
+
+
                     sensor = sensor.toUpperCase();
                     sensor = sensor.replaceAll("SENSOR","");
                     sensor = sensor.replaceAll("ACCELERATION","");
                     sensor = sensor.trim();
+                    final TextView tv1 = findViewById(R.id.AccelerometerInfo);
+                    tv1.setText("Name: "+sensor+"\n"+"Resolution: "+String.valueOf(sensorres)+"\n"+"Max Range: "+String.valueOf(sensormaxrange)+"\n"+"Vendor: "+sensorvendor);
                     final TextView tv = findViewById(R.id.AccQualityText);
 
                     //  For cases that have not been covered by data set
@@ -147,11 +155,18 @@ public class MainActivity extends AppCompatActivity{
                 if (sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE) != null){
                     // Preprocessing on the input accelerometer string
                     String sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE).getName();
+                    String sensorvendor = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE).getVendor();
+                    float sensorres = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE).getResolution();
+                    float sensormaxrange = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE).getMaximumRange();
+
                     sensor = sensor.toUpperCase();
                     sensor = sensor.replaceAll("SENSOR","");
                     sensor = sensor.replaceAll("BAROMETER","");
                     sensor = sensor.trim();
                     final TextView tv = findViewById(R.id.BarometerQualityText);
+                    final TextView tv1 = findViewById(R.id.BarometerInfo);
+                    tv1.setText("Name: "+sensor+"\n"+"Resolution: "+String.valueOf(sensorres)+"\n"+"Max Range: "+String.valueOf(sensormaxrange)+"\n"+"Vendor: "+sensorvendor);
+
                     //System.out.println("*******************"+sensor+"*****************");
                     //  For cases that have not been covered by data set
                     if(sensor.isEmpty()){
@@ -225,8 +240,12 @@ public class MainActivity extends AppCompatActivity{
 
                 // If Compass/Magnetometer is present in the device
                 if (sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) != null){
-                    // Preprocessing on the input accelerometer string
+                    // Preprocessing on the input compass string
                     String sensor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD).getName();
+                    String sensorvendor = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD).getVendor();
+                    float sensorres = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD).getResolution();
+                    float sensormaxrange = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD).getMaximumRange();
+
                     sensor = sensor.toUpperCase();
                     sensor = sensor.replaceAll("SENSOR","");
                     sensor = sensor.replaceAll("MAGNETOMETER","");
@@ -235,6 +254,9 @@ public class MainActivity extends AppCompatActivity{
                     sensor = sensor.trim();
                     //System.out.println("***************"+sensor+"***********************");
                     final TextView tv = findViewById(R.id.CompassQualityText);
+                    final TextView tv1 = findViewById(R.id.CompassInfo);
+                    tv1.setText("Name: "+sensor+"\n"+"Resolution: "+String.valueOf(sensorres)+"\n"+"Max Range: "+String.valueOf(sensormaxrange)+"\n"+"Vendor: "+sensorvendor);
+
                     //System.out.println("*******************"+sensor+"*****************");
                     //  For cases that have not been covered by data set
                     if(sensor.isEmpty()){
@@ -309,14 +331,18 @@ public class MainActivity extends AppCompatActivity{
 
                 // If Gyroscope is present in the device
                 if (sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE) != null){
-                    // Preprocessing on the input accelerometer string
+                    // Preprocessing on the input Gyroscope string
                     String sensor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE).getName();
+                    float sensormaxrange = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE).getMaximumRange();
+                    float sensorres =  sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE).getResolution();
+                    String sensorvendor = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE).getVendor();
                     sensor = sensor.toUpperCase();
                     sensor = sensor.replaceAll("SENSOR","");
                     sensor = sensor.replaceAll("GYROSCOPE","");
                     sensor = sensor.trim();
                     final TextView tv = findViewById(R.id.GyroQualityText);
-
+                    final TextView tv1 = findViewById(R.id.GyroInfo);
+                    tv1.setText("Name: "+sensor+"\n"+"Resolution: "+String.valueOf(sensorres)+"\n"+"Max Range: "+String.valueOf(sensormaxrange)+"\n"+"Vendor: "+sensorvendor);
                     //  For cases that have not been covered by data set
                     if(sensor.isEmpty()){
                         average++;
@@ -393,12 +419,19 @@ public class MainActivity extends AppCompatActivity{
                 if (sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY) != null){
                     // Preprocessing on the input accelerometer string
                     String sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY).getName();
+                    String sensorvendor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY).getVendor();
+                    float sensorres = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY).getResolution();
+                    float sensormaxrange = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY).getMaximumRange();
+
                     sensor = sensor.toUpperCase();
                     sensor = sensor.replaceAll("SENSOR","");
                     sensor = sensor.replaceAll("PROXIMITY","");
                     sensor = sensor.trim();
                     System.out.println("***************"+sensor+"***********************");
                     final TextView tv = findViewById(R.id.ProximityQualityText);
+                    final TextView tv1 = findViewById(R.id.ProximityInfo);
+                    tv1.setText("Name: "+sensor+"\n"+"Resolution: "+String.valueOf(sensorres)+"\n"+"Max Range: "+String.valueOf(sensormaxrange)+"\n"+"Vendor: "+sensorvendor);
+
                     //System.out.println("*******************"+sensor+"*****************");
                     //  For cases that have not been covered by data set
                     if(sensor.isEmpty()){
@@ -500,6 +533,6 @@ public class MainActivity extends AppCompatActivity{
 
 
             }
-        });
+        //});
     }
-}
+//}
