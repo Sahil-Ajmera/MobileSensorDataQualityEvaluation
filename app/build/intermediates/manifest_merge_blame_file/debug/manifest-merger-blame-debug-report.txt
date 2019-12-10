@@ -1,6 +1,6 @@
 1<?xml version="1.0" encoding="utf-8"?>
 2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-3    package="com.example.capstoneproject"
+3    package="com.dataqualitylab.sensorquality"
 4    android:versionCode="1"
 5    android:versionName="1.0" >
 6
@@ -28,9 +28,9 @@
 19        android:testOnly="true"
 20        android:theme="@style/AppTheme" >
 20-->D:\Capstone\ForApplication\Application\MobileSensorDataQualityEvaluation\app\src\main\AndroidManifest.xml:11:9-40
-21        <activity android:name="com.example.capstoneproject.MainActivity" >
+21        <activity android:name="com.dataqualitylab.sensorquality.MainActivity" >
 21-->D:\Capstone\ForApplication\Application\MobileSensorDataQualityEvaluation\app\src\main\AndroidManifest.xml:12:9-18:20
-21-->D:\Capstone\ForApplication\Application\MobileSensorDataQualityEvaluation\app\src\main\AndroidManifest.xml:12:19-47
+21-->D:\Capstone\ForApplication\Application\MobileSensorDataQualityEvaluation\app\src\main\AndroidManifest.xml:12:19-79
 22            <intent-filter>
 22-->D:\Capstone\ForApplication\Application\MobileSensorDataQualityEvaluation\app\src\main\AndroidManifest.xml:13:13-17:29
 23                <action android:name="android.intent.action.MAIN" />
