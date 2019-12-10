@@ -1,6 +1,9 @@
 # MobileSensorDataQualityEvaluation
 Capstone 
 
+# Github Project Link
+https://github.com/Sahil-Ajmera/MobileSensorDataQualityEvaluation
+
 # Initial Design
 ![AndroidAppDesign](AndroidAppDesign.jpg)
 
